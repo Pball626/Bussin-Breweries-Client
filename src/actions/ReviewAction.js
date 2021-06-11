@@ -8,25 +8,31 @@ export const reviewSubmit = (e, dispatch, history, brewery) => {
     let review = {
         text: e.target[0].value,
         rating: e.target[1].value,
-        brewery_id: brewery.id
+        brewery: {name: brewery.name, city: brewery.city, state: brewery.state, website: brewery.website_url, number: brewery.phone, id: brewery.id}
     }
-
-    fetch('http://localhost:3000/api/v1/reviews', {
+    fetch('http://localhost:3000/api/v1/createreview', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
             'Authorization': `Bearer ${localStorage.token}`
         },
-        body: JSON.stringify({ review: review })
+        body: JSON.stringify({review: review })
     })
     .then(res => res.json())
-    .then(data => {
-        !data.error ? dispatch({type: 'POST_REVIEW', review: data }) : console.log(data.error) })
-        .catch(console.log)
+    .then(data => { 
+        // !data.error ? dispatch({type: 'POST_REVIEW', review: data }) : console.log(data.error) 
+        dispatch({type: 'POST_REVIEW', review: data })})
+        // .catch(console.log())
        
 }
 export default reviewSubmit;
+
+const handleReviews = (reviews) => {
+    return {
+        type: 'GET_REVIEWS', reviews: reviews
+    }
+}
 
 export const gatherReviews = (dispatch) => {
     
@@ -40,6 +46,8 @@ export const gatherReviews = (dispatch) => {
         }
     })
     .then(res => res.json())
-    .then(data => dispatch({type: 'GET_REVIEWS', reviews: data }))
-    .catch(console.log)
+    .then(data => {
+        dispatch(handleReviews(data))
+        })
+    // .catch(error.message)
 }

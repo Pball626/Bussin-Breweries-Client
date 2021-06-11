@@ -1,17 +1,42 @@
-import React, { Component } from 'react'
+import React from 'react'
+import { useSelector } from 'react-redux'
+import { Card, Breadcrumb } from 'react-bootstrap'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import ReviewCard from './ReviewCard';
 
-function UserProfilePage() {
-    {
-        return (
-            <div>
-                <h1 className="center" >{props.user.name}'s Profile</h1>
-                <h3 className="center">Email: {props.user.email}</h3>
-                <h3 className="center">Home Town: {props.user.hometown}</h3>
-                <img className='photo' src={props.user.picture} /> <br />
-                <h3 className='center'>Age: {props.user.age}</h3>
-                <button onClick={handleClick} className='del-btn'>Delete Profile</button>
-            </div>
-        )
-    }
+const UserProfilePage = (props) => {
+    const user = useSelector(state => state.userState.user)
+    const reviews = useSelector(state => state.reviewsState.reviews)
+
+    const breweries = (useSelector(state => state.breweriesState.breweries))
+    const pathName = props.location.pathname
+    const obdb = pathName.split('/')[2]
+    const brewery = breweries.find(brew => brew.id === parseInt(obdb))
+
+    console.log(user)
+
+    return (
+        <Card style={{ textAlign: 'center' }}>
+            <Card.Title >
+                <Card.Text><h1>{user.name}'s Profile</h1></Card.Text>
+                <Card.Text><p>Email: {user.email}</p></Card.Text>
+                <Card.Text><p>Age: {user.age}</p></Card.Text>
+                <Card.Text><p>City: {user.hometown}</p></Card.Text><br />
+
+                <Card>
+                    {brewery && <ReviewCard {...props} brewery={brewery} />}
+                </Card>
+
+            </Card.Title>
+     
+            <Breadcrumb>
+                <Breadcrumb.Item href="/editprofile">Edit Profile</Breadcrumb.Item>
+                <Breadcrumb.Item href="https://getbootstrap.com/docs/4.0/components/breadcrumb/">
+                    Delete Profile
+                </Breadcrumb.Item>
+            </Breadcrumb>
+            
+        </Card>
+    )
 };
 export default UserProfilePage;

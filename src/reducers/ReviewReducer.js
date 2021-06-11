@@ -8,7 +8,7 @@ const initialState = {
 export const ReviewReducer = (state = initialState, action) => {
     switch(action.type){
         case 'POST_REVIEW':
-            console.log(action)
+            // console.log(action)
             return{
                 ...state,
                 reviews: [...state.reviews, action.review]

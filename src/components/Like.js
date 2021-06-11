@@ -1,6 +1,6 @@
 
 
 
-const Like = (props) => {
-    
-}
+// const Like = (props) => {
+
+// }

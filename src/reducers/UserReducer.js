@@ -3,16 +3,28 @@
 
 const initialState= {
     users: [],
-    currentUser: {}
+    user: {}
 }
 const UserReducer = (state = initialState, action) => {
     switch(action.type){
-        case 'POST_USERS':
-            console.log(action)
+        case 'POST_USER':
+            // console.log(action)
             return{
                 ...state,
-                currentUser: action.user
+                user: action.user
             }
+            case 'LOG_IN':
+                console.log(action)
+                return{
+                    ...state,
+                    user: action.user
+                }
+            case 'UPDATE_USER':
+                console.log(action)
+                return{
+                    ...state,
+                    user: action.user
+                }
             default:
                 return state
     }
